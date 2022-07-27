@@ -1,36 +1,34 @@
-const PORT = 3010;
-
-const express = require("express");
-const { MongoClient } = require("mongodb");
-const bodyParser = require("body-parser");
-require("dotenv").config();
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const auth = require('./routes/authentication');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(cors({ origin: 'http://localhost:3000' }));
 
-const connectionString = process.env.connectionString
-MongoClient.connect(connectionString, { useUnifiedTopology: true })
-  .then((client) => {
-    const db = client.db("test");
+const PORT = process.env.PORT || 3010;
 
-    app.use(bodyParser.json());
-
-    app.get("/", (req, res) => {
-      db.collection("testCollection")
-        .find()
-        .toArray()
-        .then((results) => res.send(results));
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.CONNECTION_STRING, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useCreateIndex: true,
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    app.post("/", (req, res) => {
-      const collection = db.collection("testCollection");
+mongoose.connection.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on PORT: ${PORT}`);
+  });
+});
 
-      collection.insertOne(req.body).then((result) => {
-        res.send(result);
-      });
-    });
+app.use(auth);
 
-    app.listen(PORT, () => {
-      console.log(`Server is running on PORT: ${PORT}`);
-    });
-  })
-  .catch(console.error);
+connectDB();

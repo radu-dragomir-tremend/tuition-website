@@ -1,7 +1,7 @@
 import React from 'react';
 
 function App() {
-  console.log("Hello World!")
+  console.log('Hello World!');
   return (
     <div className="flex flex-col h-full items-center justify-center bg-gray-200 text-gray-700">
       <div className="flex items-center">
