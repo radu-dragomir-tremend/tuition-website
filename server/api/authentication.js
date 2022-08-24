@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Professor = require('../models/Professor');
 const Student = require('../models/Student');
+const authorize = require('../middleware/authorization');
 
 const maxAgeSeconds = 7 * 24 * 60 * 60;
 const router = Router();
@@ -61,6 +62,14 @@ router.post('/login', async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     res.status(400).send(error);
+  }
+});
+
+router.get('/isauth', authorize, async (req, res) => {
+  try {  
+    res.status(200).json('AUTHORIZED');
+  } catch (error) {
+    res.status(403).json(error);
   }
 });
 

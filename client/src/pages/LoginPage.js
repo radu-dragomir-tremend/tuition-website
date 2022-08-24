@@ -95,6 +95,24 @@ const LoginPage = () => {
             >
               Login as Professor
             </button>
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                const response = await fetch('http://localhost:3010/isauth', {
+                  method: 'get',
+                  credentials: 'include',
+                  headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                });
+                console.log(response);
+                const data = await response.json();
+                console.log(data);
+              }}
+            >
+              is authenticated?
+            </button>
           </div>
           <Link
             to='/register'
