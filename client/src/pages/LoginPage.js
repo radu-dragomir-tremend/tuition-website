@@ -20,6 +20,9 @@ const LoginPage = () => {
       body: JSON.stringify({ userType, email: credentials.email, password: credentials.password }),
     });
     console.log(response);
+    if (response.ok) {
+      localStorage.setItem('userType', userType);
+    }
     const data = await response.json();
     console.log(data);
   };
@@ -119,6 +122,12 @@ const LoginPage = () => {
             className='underline mt-2 block text-right text-gray-700 hover:text-black'
           >
             Create an account
+          </Link>
+          <Link
+            to='/profile'
+            className='underline mt-2 block text-right text-gray-700 hover:text-black'
+          >
+            Profile
           </Link>
         </form>
       </div>

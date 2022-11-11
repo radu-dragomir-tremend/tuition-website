@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authentication = require('./api/authentication');
+const profile = require('./api/profile');
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,5 +29,6 @@ mongoose.connection.once('open', () => {
 });
 
 app.use(authentication);
+app.use(profile);
 
 connectDB();

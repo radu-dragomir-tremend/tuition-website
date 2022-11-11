@@ -8,7 +8,7 @@ const authorization = (req, res, next) => {
       return res.status(403).json(err);
     }
     console.log('user', user);
-    req.user = user;
+    req.userInfo = user;
     next();
   });
 };

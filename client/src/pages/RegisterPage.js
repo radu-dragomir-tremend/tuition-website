@@ -21,6 +21,9 @@ const RegisterPage = () => {
       body: JSON.stringify({ userType, email: credentials.email, password: credentials.password }),
     });
     console.log(response);
+    if (response.ok) {
+      localStorage.setItem('userType', userType);
+    }
     const data = await response.json();
     console.log(data);
   };
